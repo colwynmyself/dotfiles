@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+echo "Fetching and cleaning all repos..."
+git-clean-all y;
+
+if command -v brew &> /dev/null; then
+    echo "Updating and upgrading brew"
+    brew update;
+    brew upgrade;
+    brew cleanup;
+fi

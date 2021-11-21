@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+eval "$(ssh-agent)"
+ssh-add
+
+cd ~/repositories || exit
+for i in *; do
+  if [[ -d "$i" && -d "$i/.git" ]]; then
+    ( echo "Doing $i...";
+      cd "${i}" || return;
+      git fetch --all --prune;
+      echo "";
+      echo "-----";
+      echo ""; )
+  fi
+done

@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+ALWAYS_HARDREMOVE="$1"
+
+git fetch -p
+CURRENT_BRANCH_IS_GONE=$(git branch -vv | awk '/: gone]/{print ($1 == "*") ? "y" : "n"}')
+
+if [[ "$CURRENT_BRANCH_IS_GONE" == "y" ]]; then
+    echo "Current branch no longer exists in remote"
+    MAIN_EXISTS=$(git branch | grep "main")
+    DEVELOP_EXISTS=$(git branch | grep "develop")
+
+    if [[ -n "$DEVELOP_EXISTS" ]]; then
+        echo "Checking out develop"
+        git checkout develop > /dev/null 2>&1
+        git pull origin develop > /dev/null 2>&1
+    elif [[ -z "$MAIN_EXISTS" ]]; then
+        echo "Checking out main"
+        git checkout main > /dev/null 2>&1
+        git pull origin main > /dev/null 2>&1
+    else
+        echo "Checking out master"
+        git checkout master > /dev/null 2>&1
+        git pull origin master > /dev/null 2>&1
+    fi
+fi
+
+BRANCHES=$(git branch -vv | awk '/: gone]/{print ($1 == "*") ? $2 : $1}')
+for branch in $BRANCHES; do
+    echo "Removing branch: $branch"
+    result=$(git branch -d "${branch}")
+    if [[ $result != *"Deleted branch $branch"* ]]; then
+        if [[ $ALWAYS_HARDREMOVE == "y" ]]; then
+            echo "Branch does not exist in remote but does locally. Removing automatically"
+            git branch -D "${branch}" > /dev/null 2>&1
+            echo "Removed branch $branch"
+        else
+          echo "Failed to remove branch, attempt with -D? (y/N)"
+          read -r hardremove
+          if [[ $hardremove == "Y" || $hardremove == "y" ]]; then
+              git branch -D "${branch}" > /dev/null 2>&1
+              echo "Removed branch $branch"
+          fi
+        fi
+    else
+        echo "Removed branch $branch"
+    fi
+done
+
+git pull -q --stat --ff-only 

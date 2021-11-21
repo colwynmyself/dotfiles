@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+cd ~/repositories || exit
+for i in *; do
+  if [[ -d "$i" && -f "$i/package.json" ]]; then
+      (
+        cd "${i}" || return;
+        echo "$i - $(npm audit)";
+      )
+  fi
+done

@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+ALWAYS_HARDREMOVE="$1"
+
+eval "$(ssh-agent)"
+ssh-add
+
+cd ~/repositories || exit
+for i in *; do
+  if [[ -d "$i" && -d "$i/.git" ]]; then
+    ( echo "Cleaning $i...";
+      cd "${i}" || return;
+      git-clean-branch "${ALWAYS_HARDREMOVE}";
+      echo "Cleaned $i";
+      echo "";
+      echo "-----";
+      echo ""; )
+  fi
+done
