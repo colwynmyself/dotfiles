@@ -23,3 +23,6 @@
 	driver = npx npm-merge-driver merge %A %O %B %P
 [commit]
 	gpgsign = true
+[user]
+	email = colwyn@colwyn.me
+	name = Colwyn Fritze-Moor
