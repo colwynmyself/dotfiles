@@ -26,3 +26,5 @@
 [user]
 	email = colwyn@colwyn.me
 	name = Colwyn Fritze-Moor
+[init]
+	defaultBranch = main
