@@ -33,5 +33,11 @@ fi
 ZSH_CUSTOM_DIR="$HOME/.oh-my-zsh/custom"
 nicelog "Managing $ZSH_CUSTOM_DIR"
 cd "$ZSH_CUSTOM_DIR" || exit 1
-ln -sf "$REPO_DIR/env.cachyos.zsh" .
+ln -sf "$REPO_DIR/env.zsh" .
+
+# CachyOS Only
+if [[ "$(uname -a)" = *cachyos* ]]; then
+  nicelog "Installing CachyOS specific config"
+  ln -sf "$REPO_DIR/env.cachyos.zsh" .
+fi
 

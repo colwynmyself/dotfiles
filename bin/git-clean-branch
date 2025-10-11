@@ -7,7 +7,7 @@ log (){
   echo "[$time] $1"
 }
 
-git fetch -p
+git fetch -p > /dev/null 2>&1
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 CURRENT_BRANCH_IS_GONE=$(git branch -vv | awk '/: gone]/{print ($1 == "*") ? "y" : "n"}')
 
