@@ -1,13 +1,16 @@
+" Load plugins
+call plug#begin()
+
+Plug 'preservim/nerdtree'
+
+call plug#end()
+
+" Formatting niceness
 set tabstop=4 softtabstop=0 expandtab shiftwidth=2 smarttab
 au FileType gitcommit setlocal tw=72
 set relativenumber number
 syntax on
 filetype plugin indent on
-
-execute pathogen#infect()
-
-" fzf
-set rtp+=~/repositories/fzf
 
 " Load NERDTree if running vim with nothing
 autocmd StdinReadPre * let s:std_in=1
