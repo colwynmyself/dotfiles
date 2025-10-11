@@ -35,7 +35,7 @@ fi
 BRANCHES=$(git branch -vv | awk '/: gone]/{print ($1 == "*") ? $2 : $1}')
 for branch in $BRANCHES; do
   log "Removing branch $branch"
-  result=$(git branch -d "${branch}") > /dev/null 2>&1
+  result=$(git branch -d "${branch}")
   if [[ $result != *"Deleted branch $branch"* ]]; then
     if [[ $ALWAYS_HARDREMOVE == "y" ]]; then
       log "Branch ${branch} does not exist in remote but does locally. Removing automatically"
