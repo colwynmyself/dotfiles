@@ -1,30 +1,33 @@
 [alias]
-    permission-reset = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
-    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-    pff = pull --ff-only
-    pr = pull --rebase
-    aa = add .
-    cm = commit -m
-    s = status
-    co = checkout
-    c = commit
-    pt = push --follow-tags
-    f = fetch
-    contrib=shortlog -sn --no-merges
+  permission-reset = !git diff -p -R --no-color | grep -E \"^(diff|(old|new) mode)\" --color=never | git apply
+  lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  pff = pull --ff-only
+  pr = pull --rebase
+  aa = add .
+  cm = commit -m
+  s = status
+  co = checkout
+  c = commit
+  pt = push --follow-tags
+  f = fetch
+  contrib=shortlog -sn --no-merges
 [filter "lfs"]
-    clean = git-lfs clean -- %f
-    smudge = git-lfs smudge -- %f
-    process = git-lfs filter-process
-    required = true
+  clean = git-lfs clean -- %f
+  smudge = git-lfs smudge -- %f
+  process = git-lfs filter-process
+  required = true
 [push]
-    default = simple
+  default = simple
 [merge "npm-merge-driver"]
-	name = automatically merge npm lockfiles
-	driver = npx npm-merge-driver merge %A %O %B %P
+  name = automatically merge npm lockfiles
+  driver = npx npm-merge-driver merge %A %O %B %P
 [commit]
-	gpgsign = true
+  gpgsign = true
+[tag]
+  gpgsign = true
 [user]
-	email = colwyn@colwyn.me
-	name = Colwyn Fritze-Moor
+  email = colwyn@colwyn.me
+  name = Colwyn Fritze-Moor
+  # signingkey = <KEY GOES HERE>
 [init]
-	defaultBranch = main
+  defaultBranch = main
