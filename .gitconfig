@@ -29,6 +29,7 @@
 [user]
   email = colwyn@colwyn.me
   name = Colwyn Fritze-Moor
-  # signingkey = <KEY GOES HERE>
 [init]
   defaultBranch = main
+[include]
+  path = .gitconfig.signingKey
