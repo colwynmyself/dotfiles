@@ -10,7 +10,8 @@
   c = commit
   pt = push --follow-tags
   f = fetch
-  contrib=shortlog -sn --no-merges
+  contrib = shortlog -sn --no-merges
+  pb = "!git push -u origin \"$(git rev-parse --abbrev-ref HEAD)\""
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
