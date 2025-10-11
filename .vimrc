@@ -2,6 +2,7 @@
 call plug#begin()
 
 Plug 'preservim/nerdtree'
+Plug 'gabrielelana/vim-markdown'
 
 call plug#end()
 
