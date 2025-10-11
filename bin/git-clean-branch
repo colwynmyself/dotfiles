@@ -2,48 +2,55 @@
 
 ALWAYS_HARDREMOVE="$1"
 
+log (){
+  time="$(date +'%Y-%m-%dT%H:%M:%S')"
+  echo "[$time] $1"
+}
+
 git fetch -p
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
 CURRENT_BRANCH_IS_GONE=$(git branch -vv | awk '/: gone]/{print ($1 == "*") ? "y" : "n"}')
 
 if [[ "$CURRENT_BRANCH_IS_GONE" == "y" ]]; then
-    echo "Current branch no longer exists in remote"
+    log "Branch ${CURRENT_BRANCH} no longer exists in remote"
+
     MAIN_EXISTS=$(git branch | grep "main")
     DEVELOP_EXISTS=$(git branch | grep "develop")
 
     if [[ -n "$DEVELOP_EXISTS" ]]; then
-        echo "Checking out develop"
-        git checkout develop > /dev/null 2>&1
+        log "Switching to develop"
         git pull origin develop > /dev/null 2>&1
-    elif [[ -z "$MAIN_EXISTS" ]]; then
-        echo "Checking out main"
-        git checkout main > /dev/null 2>&1
+        git switch develop > /dev/null 2>&1
+    elif [[ -n "$MAIN_EXISTS" ]]; then
+        log "Switching to main"
         git pull origin main > /dev/null 2>&1
+        git switch main > /dev/null 2>&1
     else
-        echo "Checking out master"
-        git checkout master > /dev/null 2>&1
+        log "Switching to master"
         git pull origin master > /dev/null 2>&1
+        git switch master > /dev/null 2>&1
     fi
 fi
 
 BRANCHES=$(git branch -vv | awk '/: gone]/{print ($1 == "*") ? $2 : $1}')
 for branch in $BRANCHES; do
-    echo "Removing branch: $branch"
+    log "Removing branch $branch"
     result=$(git branch -d "${branch}")
     if [[ $result != *"Deleted branch $branch"* ]]; then
         if [[ $ALWAYS_HARDREMOVE == "y" ]]; then
-            echo "Branch does not exist in remote but does locally. Removing automatically"
+            log "Branch ${branch} does not exist in remote but does locally. Removing automatically"
             git branch -D "${branch}" > /dev/null 2>&1
-            echo "Removed branch $branch"
+            log "Removed branch $branch"
         else
-          echo "Failed to remove branch, attempt with -D? (y/N)"
+          log "Failed to remove $branch, attempt with -D? (y/N)"
           read -r hardremove
           if [[ $hardremove == "Y" || $hardremove == "y" ]]; then
               git branch -D "${branch}" > /dev/null 2>&1
-              echo "Removed branch $branch"
+              log "Removed branch $branch"
           fi
         fi
     else
-        echo "Removed branch $branch"
+        log "Removed branch $branch"
     fi
 done
 
