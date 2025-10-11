@@ -1,0 +1,12 @@
+# General
+export PATH="$PATH:$HOME/bin"
+
+# Gaming
+export PROTON_DLSS_UPGRADE=1
+export PROTON_DLSS_INDICATOR=1
+export PROTON_NVIDIA_LIBS=1
+export PROTON_NO_WM_DECORATION=1
+export PROTON_PREFER_SDL=1
+
+# GPG Git
+export GPG_TTY=$(tty)
