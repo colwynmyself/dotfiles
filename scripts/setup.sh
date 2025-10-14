@@ -5,15 +5,31 @@ if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
   exit 1
 fi
 
+create_symlink() {
+  # Make a nice name for the log
+  current_dir="$(pwd)"
+
+  log_dest="$2"
+  if [[ "$2" == "." ]]; then
+    log_dest="$(basename "$1")"
+  fi
+
+  nicelog "Symlink: $1 -> $current_dir/$log_dest"
+  ln -sf "$1" "$2"
+}
+
 REPO_DIR="$(git rev-parse --show-toplevel)"
 
 nicelog "Managing $HOME"
-cd "$HOME" || exit 1
-ln -sf "$REPO_DIR/.gitconfig" .
-ln -sf "$REPO_DIR/.tmux.conf" .
-ln -sf "$REPO_DIR/.vimrc" .
-ln -sf "$REPO_DIR/.zshrc" .
-ln -sf "$REPO_DIR/bin" .
+
+(
+  cd "$HOME" || exit 1
+  create_symlink "$REPO_DIR/.gitconfig" .
+  create_symlink "$REPO_DIR/.tmux.conf" .
+  create_symlink "$REPO_DIR/.vimrc" .
+  create_symlink "$REPO_DIR/.zshrc" .
+  create_symlink "$REPO_DIR/bin" .
+)
 
 SIGNING_KEY_FILE="$HOME/.gitconfig.signingKey"
 if [[ ! -f "$SIGNING_KEY_FILE" ]]; then
@@ -32,13 +48,23 @@ fi
 # ZSH_CUSTOM isn't available in this script. Probably has something to do with it being a script and not a shell
 ZSH_CUSTOM_DIR="$HOME/.oh-my-zsh/custom"
 nicelog "Managing $ZSH_CUSTOM_DIR"
-cd "$ZSH_CUSTOM_DIR" || exit 1
-ln -sf "$REPO_DIR/env.zsh" .
-ln -sf "$REPO_DIR/alias.zsh" .
+
+for f in "$REPO_DIR"/omz/custom/general/*; do
+  name="general.$(basename "$f")"
+  (
+    cd "$ZSH_CUSTOM_DIR" || exit 1
+    create_symlink "$f" "$name"
+  )
+done
 
 # CachyOS Only
 if [[ "$(uname -a)" = *cachyos* ]]; then
   nicelog "Installing CachyOS specific config"
-  ln -sf "$REPO_DIR/env.cachyos.zsh" .
+  for f in "$REPO_DIR"/omz/custom/cachyos/*; do
+    name="cachyos.$(basename "$f")"
+    (
+      cd "$ZSH_CUSTOM_DIR" || exit 1
+      create_symlink "$f" "$name"
+    )
+  done
 fi
-
