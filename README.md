@@ -20,3 +20,9 @@ Run `./scripts/setup.sh` to setup symlinks.
 
 The `.gitconfig` in this repository expects a GPG key for signing git commits. After running `./scripts/setup.sh`,
 follow the logged instructions to setup your GPG key.
+
+### Fonts
+
+The OMZ theme selected recommends a specific font. Follow
+[the installation instructions](https://github.com/romkatv/powerlevel10k?tab=readme-ov-file#meslo-nerd-font-patched-for-powerlevel10k)
+to get it installed.
