@@ -6,11 +6,10 @@ ssh-add
 cd ~/repositories || exit
 for i in *; do
   if [[ -d "$i" && -d "$i/.git" ]]; then
-    ( echo "Doing $i...";
-      cd "${i}" || return;
-      git fetch --all --prune;
-      echo "";
-      echo "-----";
-      echo ""; )
+    (
+      nicelog "Fetching $i..."
+      cd "${i}" || exit 1
+      git fetch --all --prune
+    )
   fi
 done

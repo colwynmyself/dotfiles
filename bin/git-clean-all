@@ -8,12 +8,11 @@ ssh-add
 cd ~/repositories || exit
 for i in *; do
   if [[ -d "$i" && -d "$i/.git" ]]; then
-    ( echo "Cleaning $i...";
-      cd "${i}" || return;
-      git-clean-branch "${ALWAYS_HARDREMOVE}";
-      echo "Cleaned $i";
-      echo "";
-      echo "-----";
-      echo ""; )
+    (
+      nicelog "Cleaning $i..."
+      cd "${i}" || exit 1
+      git-clean-branch "${ALWAYS_HARDREMOVE}"
+      nicelog "Cleaned $i"
+    )
   fi
 done
