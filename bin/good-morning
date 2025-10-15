@@ -4,12 +4,13 @@ nicelog "Fetching and cleaning all repos..."
 git-clean-all y
 
 if command -v brew &> /dev/null; then
-  nicelog "Updating and upgrading brew"
+  nicelog "Updating and upgrading brew..."
   brew update
   brew upgrade
   brew cleanup
 fi
 
 if command -v pacman &> /dev/null; then
+  nicelog "Updating pacman..."
   sudo pacman -Syu
 fi
