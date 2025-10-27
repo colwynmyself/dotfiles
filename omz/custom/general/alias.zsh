@@ -1,3 +1,5 @@
+alias nr="npm run"
+
 mcd () {
   mkdir -p "$1"
   cd "$1"

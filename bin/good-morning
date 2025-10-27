@@ -14,3 +14,8 @@ if command -v pacman &> /dev/null; then
   nicelog "Updating pacman..."
   sudo pacman -Syu
 fi
+
+if command -v yay &> /dev/null; then
+  nicelog "Updating AURs..."
+  yay
+fi
