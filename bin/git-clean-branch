@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# First check if we have a remote at all
+if ! git ls-remote > /dev/null 2>&1; then
+  nicelog "No remote found. Skipping..."
+  exit 0
+fi
+
 ALWAYS_HARDREMOVE="$1"
 
 git fetch -p > /dev/null 2>&1
