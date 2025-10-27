@@ -3,7 +3,7 @@
 eval "$(ssh-agent)"
 ssh-add
 
-cd ~/repositories || exit
+cd "$REPOSITORY_DIR" || exit
 for i in *; do
   if [[ -d "$i" && -d "$i/.git" ]]; then
     (

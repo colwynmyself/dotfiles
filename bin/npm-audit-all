@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-cd ~/repositories || exit
+cd "$REPOSITORY_DIR" || exit
 for i in *; do
   if [[ -d "$i" && -f "$i/package.json" ]]; then
     (

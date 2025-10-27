@@ -72,12 +72,11 @@ if [[ "$(uname -a)" = *cachyos* ]]; then
   done
 fi
 
-ALL_REPOSITORY_DIR="$HOME/repositories"
 ZSH_THEME_DIR="$HOME/.oh-my-zsh/custom/themes"
 nicelog "-----"
 nicelog "Managing $ZSH_THEME_DIR"
 
-POWERLEVEL_DIR="$ALL_REPOSITORY_DIR/powerlevel10k"
+POWERLEVEL_DIR="$REPOSITORY_DIR/powerlevel10k"
 if [[ ! -d "$POWERLEVEL_DIR" ]]; then
   nicelog "powerlevel10k not cloned. Cloning..."
   git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "$POWERLEVEL_DIR"
