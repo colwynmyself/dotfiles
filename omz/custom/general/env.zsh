@@ -1,6 +1,7 @@
 # General
 export PATH="$PATH:$HOME/bin"
 export REPOSITORY_DIR="$HOME/repositories"
+export EDITOR="vim"
 
 # GPG Git
 export GPG_TTY=$(tty)
