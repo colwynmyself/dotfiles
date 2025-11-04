@@ -5,17 +5,21 @@ if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
   exit 1
 fi
 
-create_symlink() {
-  # Make a nice name for the log
-  current_dir="$(pwd)"
+upsert_symlink() {
+  source="$1"
+  dest="$2"
 
-  log_dest="$2"
-  if [[ "$2" == "." ]]; then
-    log_dest="$(basename "$1")"
+  # If adding the file to the current directory, get the name of the destination file
+  current_dir="$(pwd)"
+  if [[ "$dest" == "." ]]; then
+    dest="$(basename "$source")"
   fi
 
-  nicelog "Symlink: $1 -> $current_dir/$log_dest"
-  ln -sf "$1" "$2"
+  # If the symlink already exists and points at the right file, don't do anything
+  if [[ "$(readlink -f "$dest")" != "$source" ]]; then
+    nicelog "Symlink: $source -> $current_dir/$dest"
+    ln -sf "$source" "$dest"
+  fi
 }
 
 REPO_DIR="$(git rev-parse --show-toplevel)"
@@ -24,12 +28,12 @@ nicelog "Managing $HOME"
 
 (
   cd "$HOME" || exit 1
-  create_symlink "$REPO_DIR/.gitconfig" .
-  create_symlink "$REPO_DIR/.p10k.zsh" .
-  create_symlink "$REPO_DIR/.tmux.conf" .
-  create_symlink "$REPO_DIR/.vimrc" .
-  create_symlink "$REPO_DIR/.zshrc" .
-  create_symlink "$REPO_DIR/bin" .
+  upsert_symlink "$REPO_DIR/.gitconfig" .
+  upsert_symlink "$REPO_DIR/.p10k.zsh" .
+  upsert_symlink "$REPO_DIR/.tmux.conf" .
+  upsert_symlink "$REPO_DIR/.vimrc" .
+  upsert_symlink "$REPO_DIR/.zshrc" .
+  upsert_symlink "$REPO_DIR/bin" .
 )
 
 SIGNING_KEY_FILE="$HOME/.gitconfig.signingKey"
@@ -55,7 +59,7 @@ for f in "$REPO_DIR"/omz/custom/general/*; do
   name="general.$(basename "$f")"
   (
     cd "$ZSH_CUSTOM_DIR" || exit 1
-    create_symlink "$f" "$name"
+    upsert_symlink "$f" "$name"
   )
 done
 
@@ -67,7 +71,7 @@ if [[ "$(uname -a)" = *cachyos* ]]; then
     name="cachyos.$(basename "$f")"
     (
       cd "$ZSH_CUSTOM_DIR" || exit 1
-      create_symlink "$f" "$name"
+      upsert_symlink "$f" "$name"
     )
   done
 fi
@@ -84,5 +88,5 @@ fi
 
 (
   cd "$ZSH_THEME_DIR" || exit 1
-  create_symlink "$POWERLEVEL_DIR" .
+  upsert_symlink "$POWERLEVEL_DIR" .
 )
