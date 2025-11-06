@@ -1,4 +1,28 @@
 #!/usr/bin/env bash
 
+print_help() {
+  echo "Usage: nicelog STRING [COLOR]
+
+Prints STRING with the current time as an ISO 86001 timestamp.
+
+Options:
+  STRING - The string to print. When this is -h, prints this text
+  COLOR - An ANSI escape code representing text treatment, usually a color"
+
+  exit 1
+}
+
+TEXT="$1"
+COLOR="$2"
+
+if [[ "$TEXT" == "-h" ]] || [[ -z "$TEXT" ]]; then
+  print_help
+fi
+
+END=""
+if [[ -n "$COLOR" ]]; then
+  END="$NC"
+fi
+
 time="$(date +'%Y-%m-%dT%H:%M:%S')"
-echo "[$time] $1"
+echo -e "${COLOR}[$time] $TEXT${END}"

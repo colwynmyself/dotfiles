@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
 
-nicelog "Fetching and cleaning all repos..."
+nicelog "Fetching and cleaning all repos..." "$BOLDYELLOW"
 git-clean-all y
 
 if command -v brew &> /dev/null; then
-  nicelog "Updating and upgrading brew..."
+  nicelog "Updating and upgrading brew..." "$BOLDYELLOW"
   brew update
   brew upgrade
   brew cleanup
 fi
 
 if command -v pacman &> /dev/null; then
-  nicelog "Updating pacman..."
+  nicelog "Updating pacman..." "$BOLDYELLOW"
   sudo pacman -Syu
 fi
 
 if command -v yay &> /dev/null; then
-  nicelog "Updating AURs..."
+  nicelog "Updating AURs..." "$BOLDYELLOW"
   yay
 fi
