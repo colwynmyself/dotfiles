@@ -3,7 +3,7 @@
 print_help() {
   echo "Usage: nicelog STRING [COLOR]
 
-Prints STRING with the current time as an ISO 86001 timestamp.
+Prints STRING with the current time as an ISO 8601 timestamp.
 
 Options:
   STRING - The string to print. When this is -h, prints this text
@@ -24,5 +24,9 @@ if [[ -n "$COLOR" ]]; then
   END="$NC"
 fi
 
-time="$(date +'%Y-%m-%dT%H:%M:%S')"
+time="$(date +'%Y-%m-%dT%H:%M:%S%:z')"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # Macs can't handle %:z
+  time="$(date +'%Y-%m-%dT%H:%M:%S%z')"
+fi
 echo -e "${COLOR}[$time] $TEXT${END}"
