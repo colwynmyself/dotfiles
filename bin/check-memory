@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-GREP_STRING="$1"
-
-while true; do ps aux | grep -E "%MEM|$GREP_STRING"; sleep 1; done
