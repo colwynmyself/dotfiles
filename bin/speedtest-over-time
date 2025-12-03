@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Uses https://github.com/sivel/speedtest-cli to run speedtests
+# https://security.archlinux.org/package/speedtest-cli when I'm Arch
+
+if ! command -v speedtest > /dev/null; then
+  echo "speedtest must be installed"
+fi
+
+OUTPUT_FILE="$HOME/speedtests/$(date '+%Y/%m/%d/%H-%M-%S').csv"
+OUTPUT_DIR="$(dirname "$OUTPUT_FILE")"
+
+mkdir -p "$OUTPUT_DIR"
+
+if [[ -f "$OUTPUT_FILE" ]]; then
+  echo "$OUTPUT_FILE already exists. Writing to existing file"
+else
+  echo "Creating file $OUTPUT_FILE"
+  speedtest --share --csv --secure --csv-header | tee -a "$OUTPUT_FILE"
+fi
+
+while true; do
+  speedtest --share --csv --secure | tee -a "$OUTPUT_FILE"
+  sleep 60
+done
