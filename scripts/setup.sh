@@ -1,7 +1,16 @@
 #!/usr/bin/env bash
 
+if ! command -v nicelog; then
+  PATH="$PATH:$(pwd)/bin"
+fi
+
 if [[ ! -d "$HOME/.oh-my-zsh" ]]; then
   nicelog "ERROR: Oh My Zsh is not installed. Please install it first."
+  exit 1
+fi
+
+if [[ "$SHELL" != *"zsh"* ]]; then
+  nicelog "ERROR: zsh is not the default shell. Please enure it is first."
   exit 1
 fi
 
