@@ -19,3 +19,9 @@ if command -v yay &> /dev/null; then
   nicelog "Updating AURs..." "$BOLDYELLOW"
   yay
 fi
+
+if command -v apt-get &> /dev/null; then
+  nicelog "Updating apt..." "$BOLDYELLOW"
+  sudo apt-get update -y
+  sudo apt-get upgrade -y
+fi
