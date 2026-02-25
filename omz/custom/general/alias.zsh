@@ -14,3 +14,7 @@ cpfile () {
     echo "No clipboard utility installed"
   fi
 }
+
+mktmp() {
+  cd "$(mktemp -d)"
+}
