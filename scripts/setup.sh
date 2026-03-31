@@ -42,6 +42,7 @@ nicelog "Managing $HOME"
   upsert_symlink "$REPO_DIR/.tmux.conf" .
   upsert_symlink "$REPO_DIR/.vimrc" .
   upsert_symlink "$REPO_DIR/.zshrc" .
+  upsert_symlink "$REPO_DIR/.npmrc" .
   upsert_symlink "$REPO_DIR/bin" .
 )
 
