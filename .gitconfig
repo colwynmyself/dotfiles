@@ -12,6 +12,15 @@
   f = fetch
   contrib = shortlog -sn --no-merges
   pb = "!git push -u origin \"$(git rev-parse --abbrev-ref HEAD)\""
+  # https://piechowski.io/post/git-commands-before-reading-code/
+  # https://news.ycombinator.com/item?id=47687273
+  changes-1y = !git log --format=format: --name-only --since='1 year ago' | sort | uniq -c | sort -nr | head -20
+  changes-1m = !git log --format=format: --name-only --since='1 month ago' | sort | uniq -c | sort -nr | head -20
+  monthly-commits = !git log --format='%ad' --date=format:'%Y-%m' | sort | uniq -c
+  churn = !git log --format='' --name-only --diff-filter=AM --since='1 year ago' | sort | uniq -c | sort -nr | head -20
+  builtby = shortlog -sn --no-merges
+  bug-gathering = !git log -i -E --grep='fix|bug|broken' --name-only --format='' | sort | uniq -c | sort -nr | head -20
+  firefighting = !git log --oneline --since='1 year ago' | grep -iE 'revert|hotfix|emergency|rollback'
 [filter "lfs"]
   clean = git-lfs clean -- %f
   smudge = git-lfs smudge -- %f
